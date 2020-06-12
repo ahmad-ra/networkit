@@ -7,7 +7,7 @@ this is an unofficial Development clone , and will be added to NetworKit origina
 adding native windows support for NetworKit without the need for a virtual machine or WSL which may produce additional hassle
 
 ## 
-[NetworKit][networkit] is an open-source tool suite for high-performance
+NetworKit is an open-source tool suite for high-performance
 network analysis. Its aim is to provide tools for the analysis of large
 networks in the size range from thousands to billions of edges. For this
 purpose, it implements efficient graph algorithms, many of them parallel to
