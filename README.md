@@ -1,5 +1,5 @@
 
-# Windows 10 native support for NetworKit without WSL.
+# Windows 10 native support for NetworKit .
 
 this is an unofficial Development clone , and will be added to NetworKit original Dev branch when work is done, the original NetworKit repo : https://github.com/networkit/networkit
 
