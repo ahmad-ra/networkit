@@ -35,18 +35,7 @@ follow the steps here, BUT check the POSIX thread option not win32 ** : https://
 - Build system: MSBuild
 
  Must have visual studio tool chain installed , and have an environment variable for msbuild 
-
-
-You will need the following software to install NetworKit as a python
-package:
-
-- A modern C++ compiler, e.g.: [g++] (&gt;= 4.8) or [clang++] (&gt;= 3.7)
-- OpenMP for parallelism (usually ships with the compiler)
-- Python3 (3.5 or higher is supported)
-- [Pip]
-- [CMake] version 3.5 or higher (e.g., `pip3 install cmake`)
-- Build system: [Make] or [Ninja]
-- Cython version 0.29 or higher (e.g., `pip3 install cython`)
+ 
 
 ## Install
 
