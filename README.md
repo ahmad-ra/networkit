@@ -41,10 +41,12 @@ follow the steps here, BUT check the POSIX thread option not win32 ** : https://
 
     git clone https://github.com/ahmad-ra/networkit
     
-    py setup.py build_ext |  python3 setup.py build_ext
-     
-   (depending on your environment)
+    py setup.py build_ext 
     
+   OR (depending on your environment)
+    
+    python3 setup.py build_ext
+         
     pip3 install -e .
 
 - no modification nor test was done to `ninja`
