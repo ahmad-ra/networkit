@@ -3132,7 +3132,7 @@ cdef class RmatGenerator(StaticGraphGenerator):
 					graphio.writeGraph(G, tmpGraphPath, graphio.Format.EdgeList, separator="\t", firstNode=1, bothDirections=True)
 					# call kronfit
 					args = [cls.paths["kronfitPath"], "-i:{0}".format(tmpGraphPath), "-gi:{0}".format(str(iterations)), "-o:{}".format(tmpOutputPath)]
-					subprocess.call(args)
+					subprocess.call(args, shell=True)
 					# read estimated parameters
 					with open(tmpOutputPath) as resultFile:
 						for line in resultFile:

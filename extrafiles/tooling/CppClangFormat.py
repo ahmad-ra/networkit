@@ -21,7 +21,7 @@ def findClangFormat():
 	for candidate in allowed:
 		if not shutil.which(candidate) is None:
 			if nkt.isVerbose():
-				version = str(subprocess.check_output([candidate, "--version"], universal_newlines=True)).strip()
+				version = str(subprocess.check_output([candidate, "--version"], universal_newlines=True, shell=True)).strip()
 				print("clang-format: %s\n -> Version: %s" % (candidate, version))
 
 			return candidate
@@ -36,7 +36,7 @@ def subscribedToFormat(filename, pattern = "networkit-format"):
 def runClangFormat(inputFilename, outputFilename, clangFormatBinary = 'clang-format-8'):
 	"""Execute clang-format onto inputFilename and stores the result in outputFilename"""
 	with open(outputFilename, "w") as outfile:
-		subprocess.call([clangFormatBinary, '-style=file', inputFilename], stdout=outfile)
+		subprocess.call([clangFormatBinary, '-style=file', inputFilename], stdout=outfile,shell=True)
 
 
 nkt.setup()

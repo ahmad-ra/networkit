@@ -61,7 +61,7 @@ class BTERReplicator:
 			with open(scriptPath, 'w') as matlabScriptFile:
 				matlabScriptFile.write(self.matlabScript.format(tmpdir, self.feastpackPath, self.scale, tempFileOut))
 			graphio.writeMat(self.G, tempFileIn)
-			subprocess.call([self.matlabname, '-qf', scriptPath])
+			subprocess.call([self.matlabname, '-qf', scriptPath],shell=True)
 			G_bter = graphio.readMat(tempFileOut, key='G_bter')
 			matlabObject = scipy.io.loadmat(tempFileOut)
 			self.t_fit = matlabObject["tFit"][0][0]

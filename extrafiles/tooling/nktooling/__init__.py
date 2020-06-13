@@ -101,7 +101,7 @@ def getCXXFiles(includeSources = True, includeHeaders = True):
 def computeAndReportDiff(originalFilename, formatedFilename):
 	"""Compute a colorful diff between the original file and the formatted one"""
 	p = subprocess.Popen(["diff", "-a", "--color=always", originalFilename, formatedFilename],
-						 stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=-1)
+						 stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=-1, shell=True)
 	output, _ = p.communicate()
 
 	print("-" * 20, "Begin of diff", "-" * 20)

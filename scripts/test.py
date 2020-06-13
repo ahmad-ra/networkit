@@ -51,11 +51,11 @@ workingDirectory = None
 
 def buildAntTest():
 	# compile
-	result = subprocess.call(['scons', '--optimize=' + args.optimize, '--target=' + args.target, '-j', str(args.jobs)], cwd = workingDirectory)
+	result = subprocess.call(['scons', '--optimize=' + args.optimize, '--target=' + args.target, '-j', str(args.jobs)], cwd = workingDirectory,shell=True)
 
 	# run test to if compilation was successful and a test name was specified
 	if result == 0 and args.target == 'Tests' and args.gtest_filter:
-		subprocess.call(['./NetworKit-' + args.target + '-' + args.optimize, '--tests', '--loglevel=' + args.loglevel, '--gtest_filter=*' + args.gtest_filter + '*'], cwd = workingDirectory)
+		subprocess.call(['./NetworKit-' + args.target + '-' + args.optimize, '--tests', '--loglevel=' + args.loglevel, '--gtest_filter=*' + args.gtest_filter + '*'], cwd = workingDirectory, shell=True)
 
 class ContinousTesting(PatternMatchingEventHandler):
 	def __init__(self):

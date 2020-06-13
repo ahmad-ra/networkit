@@ -86,11 +86,14 @@ def determineCompiler(candidates, std, flags):
 		cmd = [compiler,"-o","test_build","-std={}".format(std)]
 		cmd.extend(flags)
 		cmd.append("sample.cpp")
+		
 		try:
-			if subprocess.call(cmd,stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
+			if subprocess.call(cmd,stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,shell=True) == 0:
 				os.remove("sample.cpp")
-				os.remove("test_build")
+				os.remove("test_build.exe")
+				
 				return compiler
+	
 		except:
 			pass
 	try:
@@ -135,7 +138,7 @@ def cythonizeFile(filepath):
 			print("_NetworKit.pyx is not available. Build cancelled.")
 			exit(1)
 		comp_cmd = ["cython","-3","--cplus","-t",filepath]
-		if not subprocess.call(comp_cmd) == 0:
+		if not subprocess.call(comp_cmd, shell=True) == 0:
 			print("cython returned an error, exiting setup.py")
 			exit(1)
 		print("_NetworKit.pyx cythonized", flush=True)
@@ -149,13 +152,16 @@ def buildNetworKit(install_prefix, externalCore=False, withTests=False, rpath=No
 		pass
 	# Build cmake call
 	abs_prefix = os.path.join(os.getcwd(), install_prefix)
-	comp_cmd = ["cmake","-DCMAKE_BUILD_TYPE=Release"]
+	comp_cmd = ["cmake","-A","x64","-DCMAKE_BUILD_TYPE=Release"]
 	comp_cmd.append("-DCMAKE_INSTALL_PREFIX="+abs_prefix)
 	comp_cmd.append("-DCMAKE_CXX_COMPILER="+cmakeCompiler)
 	comp_cmd.append("-DNETWORKIT_FLATINSTALL=ON")
-	from sysconfig import get_paths, get_config_var
+	from sysconfig import get_paths #, get_config_var
+	#Windows support
+	from distutils.sysconfig import get_config_var
+	
 	comp_cmd.append("-DNETWORKIT_PYTHON="+get_paths()['include']) #provide python.h files
-	comp_cmd.append("-DNETWORKIT_PYTHON_SOABI="+get_config_var('SOABI')) #provide lib env specification
+	comp_cmd.append("-DNETWORKIT_PYTHON_SOABI="+ get_config_var('EXT_SUFFIX').split('.')[1]      )#+get_config_var('SOABI')) #provide lib env specification
 	if externalCore:
 		comp_cmd.append("-DNETWORKIT_BUILD_CORE=OFF")
 	if ninja_available:
@@ -165,16 +171,26 @@ def buildNetworKit(install_prefix, externalCore=False, withTests=False, rpath=No
 		comp_cmd.append("-DNETWORKIT_PYTHON_RPATH="+rpath)
 	# Run cmake
 	print("initializing NetworKit compilation with: '{0}'".format(" ".join(comp_cmd)), flush=True)
-	if not subprocess.call(comp_cmd, cwd=buildDirectory) == 0:
+	if not subprocess.call(comp_cmd, cwd=buildDirectory, shell=True) == 0:
+	
 		print("cmake returned an error, exiting setup.py")
 		exit(1)
 	build_cmd = []
+	#windows support
+	#ninja is not tested for windows , thus it is not modified
 	if ninja_available:
 		build_cmd = ["ninja", "install", "-j"+str(jobs)]
 	else:
-		build_cmd = ["make", "install", "-j"+str(jobs)]
+		#build_cmd = ["make", "install", "-j"+str(jobs)]
+		#windows support
+		#no parallelism as in -jX in make
+		#TODO: little more search to put more usefull switches/flags in the msbuild command if available
+		build_cmd = ["msbuild", "/P:Configuration=Release", "INSTALL.vcxproj"]
+
+
+
 	print("Build with: '{0}'".format(" ".join(build_cmd)), flush=True)
-	if not subprocess.call(build_cmd, cwd=buildDirectory) == 0:
+	if not subprocess.call(build_cmd, cwd=buildDirectory, shell=True) == 0:
 		print("Build tool returned an error, exiting setup.py")
 		exit(1)
 

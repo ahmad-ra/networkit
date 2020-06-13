@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(networkit CXX)
 
+link_directories(C:/Users/Dell/AppData/Local/Programs/Python/Python37-32/libs)
 if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 	message(SEND_ERROR "In-source builds are not allowed.")
 endif("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
